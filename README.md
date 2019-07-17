@@ -43,7 +43,7 @@ aws ssm put-parameter --name moneybuttonWebhookProxySecret --type String --value
 4. Deploy
 
 ```shell
-sls deploy --stage production --region \<AWS_REGION> --targetEndpoint \<ENDPOINT_URL>
+sls deploy --stage production --region <AWS_REGION> --targetEndpoint <ENDPOINT_URL>
 ```
 
 5. Manually confirm subscription
