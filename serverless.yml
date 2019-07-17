@@ -1,0 +1,81 @@
+service:
+  name: moneybutton-webhook-proxy
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-offline-sns
+  - serverless-offline
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, 'ap-southeast-1'}
+  memorySize: 128
+  usagePlan:
+    rateLimit: ${opt:rateLimit,'2'}
+    burstLimit: ${opt:burstLimit,'8'}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'sns:Publish'
+      Resource:
+        Ref: WebhookNotificationTopic
+
+
+custom:
+  webpack:
+    includeModules: true
+    keepOutputDirectory: true
+  serverless-offline-sns:
+    port: 4002
+    debug: true
+
+functions:
+  webhook:
+    handler: src/functions/webhook.handle
+    environment:
+      TOPIC_ARN:
+        Ref: WebhookNotificationTopic
+      WEBHOOK_SECRET: ${ssm:moneybuttonWebhookProxySecret}
+
+    events:
+      - http:
+          method: post
+          path: webhook
+  processSNSMessage:
+    handler: src/functions/processSNSMessage.middyHandler
+    environment:
+      TARGET_ENDPOINT: ${opt:targetEndpoint}
+      REQUEST_TIMOUT: ${opt:endpointTimeout,'5000'}
+      TOPIC_ARN:
+        Ref: WebhookNotificationTopic
+    events:
+      - http:
+          method: post
+          path: processSNSMessage
+
+
+resources:
+  Resources:
+    WebhookNotificationTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: 'Topic for delivery of webhook notifications to target endpoint'
+    ProcessMessageSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: 'https'
+        DeliveryPolicy: "{\"healthyRetryPolicy\":{\"minDelayTarget\":${env:SNS_MIN_DELAY,'120'},\"maxDelayTarget\":${env:SNS_MAX_DELAY,'600'},\"numRetries\":11,\"numMaxDelayRetries\":${env:POST_BACKOFF_RETRIES,'2'},\"numNoDelayRetries\": ${env:IMMEDIATE_RETRIES,'1'},\"numMinDelayRetries\": ${env:PRE_BACKOFF_RETRIES,'2'},\"backoffFunction\":\"exponential\"}}"
+        TopicArn:
+          Ref: WebhookNotificationTopic
+        Endpoint:
+          Fn::Join:
+            - ""
+            - - "https://"
+              - Ref: "ApiGatewayRestApi"
+              - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/processSNSMessage"
+  Outputs:
+    WebhookNotificationTopicARN:
+      Description: ARN of WebhookNotificationTopic Endpoint
+      Value:
+        Ref: WebhookNotificationTopic

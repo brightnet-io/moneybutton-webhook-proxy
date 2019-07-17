@@ -1,0 +1,63 @@
+{
+  "name": "moneybutton-webook-proxy",
+  "version": "0.1.0",
+  "description": "Serverless (AWS) implementation of a simple proxy for Money Button webhook calls providing retry capability",
+  "scripts": {
+    "test": "jest --detectOpenHandles",
+    "tslint": "tslint -c tslint.json './__tests__/**/*.ts' 'src/**/*.ts' ",
+    "tslint:fix": "tslint -c tslint.json './__tests__/**/*.ts' 'src/**/*.ts' --fix"
+  },
+  "author": "awol55 <awol55@brightnet.io>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.27",
+    "@types/bunyan": "^1.8.6",
+    "@types/http-errors": "^1.6.1",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.12",
+    "@types/node-fetch": "^2.3.7",
+    "@types/sinon": "^7.0.13",
+    "aws-event-mocks": "git+https://git@github.com/serverless/aws-event-mocks.git#master",
+    "aws-lambda-mock-context": "^3.2.1",
+    "aws-sdk-mock": "^4.5.0",
+    "env-cmd": "^9.0.3",
+    "jest": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2",
+    "serverless-offline": "^5.7.1",
+    "serverless-offline-sns": "^0.53.0",
+    "serverless-webpack": "^5.3.1",
+    "sinon": "^7.3.2",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^6.0.4",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.2",
+    "webpack": "^4.35.2"
+  },
+  "jest": {
+    "setupFiles": [
+      "./setupJest.ts"
+    ],
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "dependencies": {
+    "aws-sdk": "^2.489.0",
+    "bunyan": "^1.8.12",
+    "middy": "^0.28.3",
+    "node-fetch": "^2.6.0",
+    "sns-validator": "^0.3.4"
+  }
+}
