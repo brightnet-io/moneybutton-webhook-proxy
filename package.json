@@ -54,7 +54,7 @@
     ]
   },
   "dependencies": {
-    "aws-sdk": "^2.489.0",
+    "aws-sdk": "^2.814.0",
     "bunyan": "^1.8.12",
     "middy": "^0.28.3",
     "node-fetch": "^2.6.0",
