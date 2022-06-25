@@ -57,7 +57,7 @@
     "aws-sdk": "^2.489.0",
     "bunyan": "^1.8.12",
     "middy": "^0.28.3",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "sns-validator": "^0.3.4"
   }
 }
