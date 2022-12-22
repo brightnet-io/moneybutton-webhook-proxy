@@ -24,7 +24,7 @@
     "env-cmd": "^9.0.3",
     "jest": "^24.8.0",
     "jest-fetch-mock": "^2.1.2",
-    "serverless-offline": "^5.7.1",
+    "serverless-offline": "^12.0.3",
     "serverless-offline-sns": "^0.53.0",
     "serverless-webpack": "^5.3.1",
     "sinon": "^7.3.2",
