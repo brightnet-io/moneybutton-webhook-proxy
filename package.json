@@ -29,11 +29,11 @@
     "serverless-webpack": "^5.3.1",
     "sinon": "^7.3.2",
     "ts-jest": "^24.0.2",
-    "ts-loader": "^6.0.4",
+    "ts-loader": "^9.4.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.2",
-    "webpack": "^4.35.2"
+    "webpack": "^5.75.0"
   },
   "jest": {
     "setupFiles": [
